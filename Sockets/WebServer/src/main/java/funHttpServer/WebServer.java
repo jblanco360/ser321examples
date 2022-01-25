@@ -249,7 +249,7 @@ class WebServer {
           String token;
           int i = 0;
           Scanner stdin = new Scanner(json);
-          while(stdin.hasnext() && i < 20){
+          while(stdin.hasNext() && i < 20){
               token = stdin.next();
               builder.append("Testing: " + token);
               i++;
