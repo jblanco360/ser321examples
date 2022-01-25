@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.nio.charset.Charset;
-import org.json.siple.parser.*;
-import org.json.simple.*;
+
 
 class WebServer {
   public static void main(String args[]) {
@@ -241,15 +241,22 @@ class WebServer {
           //System.out.println(json);
 
           builder.append("Check the todos mentioned in the Java source file");
+          Scanner stdin = new Scanner(json);
+          String tokens;
+          int i = 0;
+          while(stdin.hasNext() && i < 20){
+            tokens = stdin.sc.next();
+            System.out.println(tokens);
+
+            i++;
+          }
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response
           // and list the owner name, owner id and name of the public repo on your webpage, e.g.
           // amehlhase, 46384989 -> memoranda
           // amehlhase, 46384989 -> ser316examples
           // amehlhase, 46384989 -> test316
-          JSONObject jsonObject = new JSONObject(json);
-          String name = (String)jsonObject.get("Name");
-          System.out.println(name);
+          
         } else {
           // if the request is not recognized at all
 
