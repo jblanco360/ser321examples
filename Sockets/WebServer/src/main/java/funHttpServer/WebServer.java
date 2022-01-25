@@ -247,7 +247,7 @@ class WebServer {
           while(stdin.hasNext() && i < 20){
             tokens = stdin.next();
             System.out.println(tokens);
-
+            builder.append("Output: " + tokens);
             i++;
           }
           // TODO: Parse the JSON returned by your fetch and create an appropriate
@@ -256,6 +256,10 @@ class WebServer {
           // amehlhase, 46384989 -> memoranda
           // amehlhase, 46384989 -> ser316examples
           // amehlhase, 46384989 -> test316
+          builder.append("HTTP/1.1 200 OK\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          builder.append("Testing in progoress");
           
         } else {
           // if the request is not recognized at all
