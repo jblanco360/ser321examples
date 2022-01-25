@@ -28,6 +28,8 @@ import java.util.LinkedHashMap;
 import java.nio.charset.Charset;
 import java.util.Stack;
 
+import javax.sound.sampled.SourceDataLine;
+
 
 class WebServer {
   public static void main(String args[]) {
@@ -196,6 +198,7 @@ class WebServer {
             builder.append("\n");
             builder.append("File not found: " + file);
           }
+
         } else if (request.contains("multiply?")) {
           // This multiplies two numbers, there is NO error handling, so when
           // wrong data is given this just crashes
@@ -224,10 +227,9 @@ class WebServer {
           builder.append("\n");
           builder.append("Error: Please check your parameters or your inputs. May only contain integers!");
           }
-          // TODO: Include error handling here with a correct error code and
-          // a response that makes sense
+        }
 
-        } else if (request.contains("github?")) {
+          else if (request.contains("github?")) {
           // pulls the query from the request and runs it with GitHub's REST API
           // check out https://docs.github.com/rest/reference/
           //
@@ -241,50 +243,133 @@ class WebServer {
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
 
-          builder.append("HTTP/1.1 200 OK\n");
-          builder.append("Content-Type: text/html; charset=utf-8\n");
-          builder.append("\n");
+          
+        builder.append("HTTP/1.1 200 OK\n");
+        builder.append("Content-Type: text/html; charset=utf-8\n");
+        builder.append("\n");
+        //builder.append("Check the todos mentioned in the Java source file");
 
-          //builder.append("Check the todos mentioned in the Java source file");
-
-          Stack<String> stack = new Stack<>();
+        int index = 0;
         Scanner stdin = new Scanner(json);
         String token;
+        String id = "", name = "", login = "";
 
         while (stdin.hasNext()) {
+          System.out.println("in the loop");
             token = stdin.next();
             token = token.replace('"', ' ');
             token = token.replaceAll("\\s+", "");
 
             if (token.equals("{")) {
-                stack.push("{");
+                index++;
             }
 
             if (token.equals("}")) {
-                stack.pop();
+                index--;
             }
 
-            if (stack.size() == 1) {
+            if (index == 1) {
                 if (token.equals("name:")) {
-                    System.out.println("Repo name: " + stdin.nextLine());
-                    builder.append("Repo name: " + stdin.nextLine());
+                  name = stdin.nextLine();
+                    //System.out.println("Repo name: " + stdin.nextLine());
+                    //builder.append("Repo name: " + stdin.nextLine());
                 }
-            } else if (stack.size() == 2) {
+            } else if (index== 2) {
                 if (token.equals("login:")) {
-                    System.out.println("Owner: " + stdin.nextLine());
-                    builder.append("Owner: " + stdin.nextLine());
+                    login =stdin.nextLine();
+                    //System.out.println("Owner: " + stdin.nextLine());
+                    //builder.append("Owner: " + stdin.nextLine());
                 }
                 if (token.equals("id:")) {
-                    System.out.println("Repo id: " + stdin.nextLine());
-                    builder.append("Repo id: " + stdin.nextLine());
+                    id = stdin.nextLine();
+                    //builder.append("Repo id: " + stdin.nextLine());
+                    //builder.append("\n");
+                    
+            }
+                    //System.out.println("Repo id: " + stdin.nextLine());
+                    
                 }
 
             }
+            builder.append("Name: " + name + "Login: " + login + " ID: " + id);
+          
+        } 
 
+        else if (request.contains("lcm?")) {
+          // This multiplies two numbers, there is NO error handling, so when
+          // wrong data is given this just crashes
+
+          Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+          // extract path parameters
+          query_pairs = splitQuery(request.replace("lcm?", ""));
+          int gcd = 0, lcm;
+          // extract required fields from parameters
+          try{
+          Integer num1 = Integer.parseInt(query_pairs.get("num1"));
+          Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+
+          for(int i = 1; i <= num1 && i <= num2; i++){
+            if(num1 % i == 0 && num2 % i == 0){
+              gcd = i;
+            }
+          }
+          
+          lcm = (num1 * num2) / gcd;
+          
+
+          // Generate response
+          builder.append("HTTP/1.1 200 OK\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          builder.append("Your Lowest LCM = " + lcm);
+          }catch(IllegalArgumentException ie){
+            builder.append("HTTP/1.1 406 Invalid Syntax\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          builder.append("Error: Please check your parameters or your inputs. May only contain integers!");
+          }
+        
+        }
+
+        else if (request.contains("shape?")) {
+          // This multiplies two numbers, there is NO error handling, so when
+          // wrong data is given this just crashes
+
+          Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+          // extract path parameters
+          query_pairs = splitQuery(request.replace("shape?", ""));
+        
+          // extract required fields from parameters
+          try{
+            Integer num1 = Integer.parseInt(query_pairs.get("num1"));
+            Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+            // Generate response
+          builder.append("HTTP/1.1 200 OK\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          //builder.append("Passed");
+
+          
+          for (int i = 0; i < num1; i++){
+            for (int j = 0; j < num2; j++){
+               builder.append("* ");
+            }
+            builder.append(System.getProperty("line.separator"));
+        }
+
+          
+
+          
+          }catch(IllegalArgumentException ie){
+            builder.append("HTTP/1.1 406 Invalid Syntax\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          builder.append("Error: Please check your parameters or your inputs. May only contain integers!");
+          }
+        
         }
         
-          
-        } else {
+        else {
           // if the request is not recognized at all
 
           builder.append("HTTP/1.1 400 Bad Request\n");
@@ -404,7 +489,7 @@ class WebServer {
       }
       in.close();
     } catch (Exception ex) {
-      //System.out.println("Exception in url request:" + ex.getMessage());
+      System.out.println("Exception in url request:" + ex.getMessage());
     }
     return sb.toString();
   }
