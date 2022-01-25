@@ -206,6 +206,7 @@ class WebServer {
           Integer num2 = Integer.parseInt(query_pairs.get("num2"));
 
           // do math
+          try{
           Integer result = num1 * num2;
 
           // Generate response
@@ -213,7 +214,12 @@ class WebServer {
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
           builder.append("Result is: " + result);
-
+          }catch(IOError ie){
+            builder.append("HTTP/1.1 401 Invalid Syntax\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          builder.append("Error: Please check your parameters or your input only contains integers!");
+          }
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
 
