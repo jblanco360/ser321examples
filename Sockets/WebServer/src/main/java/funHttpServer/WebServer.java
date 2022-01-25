@@ -25,6 +25,8 @@ import java.util.Random;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.nio.charset.Charset;
+import org.json.siple.parser.*;
+import org.json.simple.*;
 
 class WebServer {
   public static void main(String args[]) {
@@ -245,7 +247,8 @@ class WebServer {
           // amehlhase, 46384989 -> memoranda
           // amehlhase, 46384989 -> ser316examples
           // amehlhase, 46384989 -> test316
-
+          JSONObject jsonObject = new JSONObject(json);
+          String name = (String)jsonObject.get("Name");
         } else {
           // if the request is not recognized at all
 
