@@ -246,24 +246,41 @@ class WebServer {
 
           builder.append("Check the todos mentioned in the Java source file");
 
-          String token;
-          int i = 0;
-          Scanner stdin = new Scanner(json);
-          while(stdin.hasNext() && i < 20){
-              token = stdin.next();
-              if(token.equals('"' + "name" + '"')){
-                builder.append("Testing: " + stdin.next());
-              }
-              
-              i++;
+          Stack<String> stack = new Stack<>();
+        Scanner stdin = new Scanner(json);
+        String token;
 
-          }
-          // TODO: Parse the JSON returned by your fetch and create an appropriate
-          // response
-          // and list the owner name, owner id and name of the public repo on your webpage, e.g.
-          // amehlhase, 46384989 -> memoranda
-          // amehlhase, 46384989 -> ser316examples
-          // amehlhase, 46384989 -> test316
+        while (stdin.hasNext()) {
+            token = stdin.next();
+            token = token.replace('"', ' ');
+            token = token.replaceAll("\\s+", "");
+
+            if (token.equals("{")) {
+                stack.push("{");
+            }
+
+            if (token.equals("}")) {
+                stack.pop();
+            }
+
+            if (stack.size() == 1) {
+                if (token.equals("name:")) {
+                    System.out.println("Repo name: " + stdin.nextLine());
+                    builder.append("Repo name: " + stdin.nextLine());
+                }
+            } else if (stack.size() == 2) {
+                if (token.equals("login:")) {
+                    System.out.println("Owner: " + stdin.nextLine());
+                    builder.append("Owner: " + stdin.nextLine());
+                }
+                if (token.equals("id:")) {
+                    System.out.println("Repo id: " + stdin.nextLine());
+                    builder.append("Repo id: " + stdin.nextLine());
+                }
+
+            }
+
+        }
         
           
         } else {
