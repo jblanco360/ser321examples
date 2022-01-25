@@ -381,7 +381,7 @@ class WebServer {
       }
       in.close();
     } catch (Exception ex) {
-      System.out.println("Exception in url request:" + ex.getMessage());
+      //System.out.println("Exception in url request:" + ex.getMessage());
     }
     return sb.toString();
   }
