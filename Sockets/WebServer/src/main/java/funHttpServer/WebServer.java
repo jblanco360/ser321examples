@@ -245,7 +245,7 @@ class WebServer {
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
 
-          builder.append("Check the todos mentioned in the Java source file");
+          //builder.append("Check the todos mentioned in the Java source file");
 
           Stack<String> stack = new Stack<>();
         Scanner stdin = new Scanner(json);
