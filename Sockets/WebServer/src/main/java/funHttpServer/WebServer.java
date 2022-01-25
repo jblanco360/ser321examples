@@ -241,15 +241,6 @@ class WebServer {
           System.out.println(json);
 
           builder.append("Check the todos mentioned in the Java source file");
-          Scanner stdin = new Scanner(json);
-          String tokens;
-          int i = 0;
-          while(stdin.hasNext() && i < 20){
-            tokens = stdin.next();
-            System.out.println(tokens);
-            builder.append("Output: " + tokens);
-            i++;
-          }
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response
           // and list the owner name, owner id and name of the public repo on your webpage, e.g.
