@@ -245,7 +245,7 @@ class WebServer {
           String tokens;
           int i = 0;
           while(stdin.hasNext() && i < 20){
-            tokens = stdin.sc.next();
+            tokens = stdin.next();
             System.out.println(tokens);
 
             i++;
