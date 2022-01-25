@@ -305,8 +305,10 @@ class WebServer {
           int gcd = 0, lcm;
           // extract required fields from parameters
           try{
-          Integer num1 = Integer.parseInt(query_pairs.get("num1"));
-          Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+          Integer num1 = Math.abs(Integer.parseInt(query_pairs.get("num1")));
+          Integer num2 = Math.abs(Integer.parseInt(query_pairs.get("num2")));
+
+
 
           for(int i = 1; i <= num1 && i <= num2; i++){
             if(num1 % i == 0 && num2 % i == 0){
