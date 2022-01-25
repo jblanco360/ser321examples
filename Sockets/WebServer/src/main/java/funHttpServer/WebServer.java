@@ -251,7 +251,10 @@ class WebServer {
           Scanner stdin = new Scanner(json);
           while(stdin.hasNext() && i < 20){
               token = stdin.next();
-              builder.append("Testing: " + token);
+              if(token.equals("name")){
+                builder.append("Testing: " + stdin.next());
+              }
+              
               i++;
 
           }
