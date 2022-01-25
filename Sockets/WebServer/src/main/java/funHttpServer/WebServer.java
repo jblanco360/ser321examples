@@ -238,7 +238,7 @@ class WebServer {
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           query_pairs = splitQuery(request.replace("github?", ""));
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
-          System.out.println(json);
+          //System.out.println(json);
 
           builder.append("Check the todos mentioned in the Java source file");
           // TODO: Parse the JSON returned by your fetch and create an appropriate
@@ -249,6 +249,7 @@ class WebServer {
           // amehlhase, 46384989 -> test316
           JSONObject jsonObject = new JSONObject(json);
           String name = (String)jsonObject.get("Name");
+          System.out.println(name);
         } else {
           // if the request is not recognized at all
 
