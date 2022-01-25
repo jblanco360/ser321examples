@@ -215,7 +215,7 @@ class WebServer {
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
           builder.append("Result is: " + result);
-          }catch(IOException ie){
+          }catch(IllegalArgumentException ie){
             builder.append("HTTP/1.1 401 Invalid Syntax\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
